@@ -1,10 +1,30 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static Scanner sc;
+    List<Movie> movieList;
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-//        show a menu to login or register
+        sc = new Scanner(System.in);
+        boolean leave = false;
+        doLogin();
+        while (!leave) {
+            System.out.println("Do you want to leave the app?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            int option = sc.nextInt();
+            sc.nextLine();
+            if (option == 1) {
+                leave = true;
+            } else if (option == 2) {
+                welcomeToDashboard();
+            }
+        }
 
+
+
+    }
+    public static void doLogin(){
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("Choose an option:");
@@ -22,10 +42,7 @@ public class Main {
             User user = new User(email);
             System.out.println("You are registered and logged in!");
         }
-
     }
-// write a function to show a welcoming with menu for Search all the movies in the app. Users can search for either title, cast or category and all
-//matching movies
     public static void searchMovies() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the search term:");
@@ -33,7 +50,7 @@ public class Main {
         System.out.println("Search results for " + searchTerm + ":");
         // search for movies
     }
-// write a function to show a welcoming with menu for Search all the movies in the app. Users can search for either title, cast or category and all
+
     public static void welcomeToDashboard() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to the dashboard!");
