@@ -55,9 +55,9 @@ public class Main {
             if (option == 1) {
                 searchMovies();
             } else if (option == 2) {
-                // viewMovies();
+                 viewMovies();
             } else if (option == 3) {
-                // addMovie();
+                 addMovie();
             } else if (option == 4) {
                 leave = true;
             }
@@ -71,6 +71,33 @@ public class Main {
         movieList.add(new Movie("3", "The Dark Knight", "Christian Bale, Heath Ledger", "Action", "18/07/2008", "$185 million"));
         movieList.add(new Movie("4", "The Lord of the Rings: The Return of the King", "Elijah Wood, Viggo Mortensen", "Fantasy", "17/12/2003", "$94 million"));
         movieList.add(new Movie("5", "Pulp Fiction", "John Travolta, Uma Thurman", "Crime", "14/10/1994", "$8 million"));
+    }
+    public static void viewMovies() {
+        System.out.println("Movies:");
+        for (Movie movie : movieList) {
+            System.out.println("ID: " + movie.getId());
+            System.out.println("Title: " + movie.getTitle());
+            System.out.println("Cast: " + movie.getCast());
+            System.out.println("Category: " + movie.getCategory());
+            System.out.println("Release Date: " + movie.getReleaseDate());
+            System.out.println("Budget: " + movie.getBudget());
+            System.out.println("-------------------------------");
+        }
+    }
+    public static void addMovie() {
+        System.out.println("Enter the movie title:");
+        String title = sc.nextLine();
+        System.out.println("Enter the cast:");
+        String cast = sc.nextLine();
+        System.out.println("Enter the category:");
+        String category = sc.nextLine();
+        System.out.println("Enter the release date:");
+        String releaseDate = sc.nextLine();
+        System.out.println("Enter the budget:");
+        String budget = sc.nextLine();
+        Movie movie = new Movie(String.valueOf(movieList.size() + 1), title, cast, category, releaseDate, budget);
+        movieList.add(movie);
+        System.out.println("Movie added successfully!");
     }
 
 }
