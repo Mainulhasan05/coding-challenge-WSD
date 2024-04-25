@@ -5,8 +5,11 @@ import java.util.Scanner;
 public class Main {
     static Scanner sc;
     static List<Movie> movieList;
+    static List<FavouriteMovies> favouriteMoviesList;
+    static User user;
     public static void main(String[] args) {
         sc = new Scanner(System.in);
+        initializeMovies();
 
 
         doLogin();
@@ -22,7 +25,7 @@ public class Main {
         if (option == 1) {
             System.out.println("Enter your email:");
             String email = sc.nextLine();
-            User user = new User(email);
+            user = new User(email);
             System.out.println("You are logged in!");
             welcomeToDashboard();
         } else if (option == 2) {
@@ -31,40 +34,62 @@ public class Main {
             User user = new User(email);
             System.out.println("You are registered and logged in!");
         }
-        initializeMovies();
-    }
-    public static void searchMovies() {
 
-        System.out.println("Enter the search term:");
-        String searchTerm = sc.nextLine();
-        System.out.println("Search results for " + searchTerm + ":");
-        // search for movies
     }
+
 
     public static void welcomeToDashboard() {
         boolean leave = false;
-        while (!leave) {
+        while (true) {
             System.out.println("Welcome to the dashboard!");
-            System.out.println("1. Search movies");
-            System.out.println("2. View movies");
-            System.out.println("3. Add movie");
-            System.out.println("4. Logout");
+
+            System.out.println("1. View movies");
+            System.out.println("2. Add movie");
+            System.out.println("3. Search movies");
+            System.out.println("4. Add favourite");
+            System.out.println("5. Remove favourite");
+            System.out.println("6. View favourites");
+            System.out.println("7. View profile");
+            System.out.println("8. Logout");
+
+
             System.out.println("Choose an option:");
             int option = sc.nextInt();
             sc.nextLine();
-            if (option == 1) {
-                searchMovies();
-            } else if (option == 2) {
-                 viewMovies();
-            } else if (option == 3) {
-                 addMovie();
-            } else if (option == 4) {
-                leave = true;
+            switch (option) {
+                case 1:
+                    viewMovies();
+                    break;
+                case 2:
+                    addMovie();
+                    break;
+                case 3:
+                    searchMovies();
+                    break;
+                case 4:
+                    addFavourite();
+                    break;
+                case 5:
+                    removeFavourite();
+                    break;
+                case 6:
+                    viewFavourites();
+                    break;
+                case 7:
+                    viewProfile();
+                    break;
+                case 8:
+                    leave = true;
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
             }
         }
     }
 
     public static void initializeMovies() {
+        favouriteMoviesList = new ArrayList<>();
         movieList = new ArrayList<>();
         movieList.add(new Movie("1", "The Shawshank Redemption", "Tim Robbins, Morgan Freeman", "Drama", "14/10/1994", "$25 million"));
         movieList.add(new Movie("2", "The Godfather", "Marlon Brando, Al Pacino", "Crime", "24/03/1972", "$6 million"));
@@ -99,5 +124,78 @@ public class Main {
         movieList.add(movie);
         System.out.println("Movie added successfully!");
     }
+
+    public static void searchMovies() {
+
+        System.out.println("Enter the search term:");
+        String searchTerm = sc.nextLine();
+        System.out.println("Search results:");
+        for (Movie movie : movieList) {
+            if (movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getId().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getCast().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getCategory().toLowerCase().contains(searchTerm.toLowerCase())) {
+                System.out.println("ID: " + movie.getId());
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Cast: " + movie.getCast());
+                System.out.println("Category: " + movie.getCategory());
+                System.out.println("Release Date: " + movie.getReleaseDate());
+                System.out.println("Budget: " + movie.getBudget());
+                System.out.println("-------------------------------");
+            }
+        }
+    }
+    public static void addFavourite() {
+        System.out.println("Enter the movie ID:");
+        String movieId = sc.nextLine();
+        FavouriteMovies favouriteMovies = new FavouriteMovies(user.getEmail(), movieId);
+        favouriteMoviesList.add(favouriteMovies);
+        System.out.println("Movie added to favourites!");
+    }
+
+    public static void removeFavourite() {
+        System.out.println("Enter the movie ID:");
+        String movieId = sc.nextLine();
+        for (FavouriteMovies favouriteMovies : favouriteMoviesList) {
+            if (favouriteMovies.getMovieId().equals(movieId)) {
+                favouriteMoviesList.remove(favouriteMovies);
+                System.out.println("Movie removed from favourites!");
+                return;
+            }
+        }
+        System.out.println("Movie not found in favourites!");
+    }
+
+    public static void viewFavourites() {
+        System.out.println("Favourites:");
+        for (FavouriteMovies favouriteMovies : favouriteMoviesList) {
+            System.out.println("User Email: " + favouriteMovies.getUserEmail());
+
+            for (Movie movie : movieList) {
+                if (movie.getId().equals(favouriteMovies.getMovieId())) {
+                    System.out.println("ID: " + movie.getId());
+                    System.out.println("Title: " + movie.getTitle());
+                    System.out.println("Cast: " + movie.getCast());
+                    System.out.println("Category: " + movie.getCategory());
+                    System.out.println("Release Date: " + movie.getReleaseDate());
+                    System.out.println("Budget: " + movie.getBudget());
+                    System.out.println("-------------------------------");
+                }
+            }
+        }
+    }
+
+    public static void viewProfile() {
+        System.out.println("User Email: " + user.getEmail());
+        System.out.println("Favourites:");
+        for (FavouriteMovies favouriteMovies : favouriteMoviesList) {
+            System.out.println("User Email: " + favouriteMovies.getUserEmail());
+            System.out.println("Movie ID: " + favouriteMovies.getMovieId());
+            System.out.println("-------------------------------");
+        }
+    }
+
+
+
 
 }
