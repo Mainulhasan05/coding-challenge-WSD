@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static Scanner sc;
@@ -50,8 +48,9 @@ public class Main {
             System.out.println("5. Remove favourite");
             System.out.println("6. View favourites");
             System.out.println("7. View profile");
-            System.out.println("8. Search Movies on Favorites");
-            System.out.println("9. Exit");
+            System.out.println("8. View Movie Details");
+            System.out.println("9. Search Movies on Favorites");
+            System.out.println("10. Exit");
 
 
 
@@ -81,9 +80,12 @@ public class Main {
                     viewProfile();
                     break;
                 case 8:
-                    searchFavoutieMovies();
+                    viewMovieDetails();
                     break;
                 case 9:
+                    searchFavoutieMovies();
+                    break;
+                case 10:
                     leave = true;
                     break;
                 default:
@@ -131,10 +133,12 @@ public class Main {
     }
 
     public static void searchMovies() {
-
         System.out.println("Enter the search term:");
         String searchTerm = sc.nextLine();
         System.out.println("Search results:");
+
+        Collections.sort(movieList, Comparator.comparing(Movie::getTitle));
+
         for (Movie movie : movieList) {
             if (movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
                     movie.getId().toLowerCase().contains(searchTerm.toLowerCase()) ||
@@ -178,6 +182,23 @@ public class Main {
                 System.out.println("-------------------------------");
             }
         }
+    }
+    public static void viewMovieDetails(){
+        System.out.println("Enter the movie ID:");
+        String movieId = sc.nextLine();
+        for (Movie movie : movieList) {
+            if (movie.getId().equals(movieId)) {
+                System.out.println("ID: " + movie.getId());
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Cast: " + movie.getCast());
+                System.out.println("Category: " + movie.getCategory());
+                System.out.println("Release Date: " + movie.getReleaseDate());
+                System.out.println("Budget: " + movie.getBudget());
+                System.out.println("-------------------------------");
+                return;
+            }
+        }
+        System.out.println("Movie not found!");
     }
 
     public static void addFavourite() {
