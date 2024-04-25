@@ -8,22 +8,9 @@ public class Main {
         sc = new Scanner(System.in);
         boolean leave = false;
         doLogin();
-        while (!leave) {
-            System.out.println("Do you want to leave the app?");
-            System.out.println("1. Yes");
-            System.out.println("2. No");
-            int option = sc.nextInt();
-            sc.nextLine();
-            if (option == 1) {
-                leave = true;
-            } else if (option == 2) {
-                welcomeToDashboard();
-            }
-        }
-
-
-
+        welcomeToDashboard();
     }
+
     public static void doLogin(){
         System.out.println("1. Login");
         System.out.println("2. Register");
@@ -44,7 +31,7 @@ public class Main {
         }
     }
     public static void searchMovies() {
-        Scanner sc = new Scanner(System.in);
+
         System.out.println("Enter the search term:");
         String searchTerm = sc.nextLine();
         System.out.println("Search results for " + searchTerm + ":");
@@ -52,20 +39,25 @@ public class Main {
     }
 
     public static void welcomeToDashboard() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to the dashboard!");
-        System.out.println("1. Search all movies");
-        System.out.println("2. Search movies by category");
-        System.out.println("3. Search movies by cast");
-        System.out.println("Choose an option:");
-        int option = sc.nextInt();
-        sc.nextLine();
-        if (option == 1) {
-            searchMovies();
-        } else if (option == 2) {
-//            searchMoviesByCategory();
-        } else if (option == 3) {
-//            searchMoviesByCast();
+        boolean leave = false;
+        while (!leave) {
+            System.out.println("Welcome to the dashboard!");
+            System.out.println("1. Search movies");
+            System.out.println("2. View movies");
+            System.out.println("3. Add movie");
+            System.out.println("4. Logout");
+            System.out.println("Choose an option:");
+            int option = sc.nextInt();
+            sc.nextLine();
+            if (option == 1) {
+                searchMovies();
+            } else if (option == 2) {
+                // viewMovies();
+            } else if (option == 3) {
+                // addMovie();
+            } else if (option == 4) {
+                leave = true;
+            }
         }
     }
 
