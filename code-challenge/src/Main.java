@@ -40,7 +40,7 @@ public class Main {
 
     public static void welcomeToDashboard() {
         boolean leave = false;
-        while (true) {
+        while (!leave) {
             System.out.println("Welcome to the dashboard!");
 
             System.out.println("1. View movies");
@@ -50,7 +50,9 @@ public class Main {
             System.out.println("5. Remove favourite");
             System.out.println("6. View favourites");
             System.out.println("7. View profile");
-            System.out.println("8. Logout");
+            System.out.println("8. Search Movies on Favorites");
+            System.out.println("9. Exit");
+
 
 
             System.out.println("Choose an option:");
@@ -79,6 +81,9 @@ public class Main {
                     viewProfile();
                     break;
                 case 8:
+                    searchFavoutieMovies();
+                    break;
+                case 9:
                     leave = true;
                     break;
                 default:
@@ -145,9 +150,46 @@ public class Main {
             }
         }
     }
+    public static void searchFavoutieMovies() {
+        System.out.println("Enter the search term:");
+        String searchTerm = sc.nextLine();
+//        get all movies information from favouriteMoviesList
+        List<Movie> favouriteMovies=new ArrayList<>();
+        for (FavouriteMovies favouriteMovies1 : favouriteMoviesList) {
+            for (Movie movie : movieList) {
+                if (movie.getId().equals(favouriteMovies1.getMovieId())) {
+                    favouriteMovies.add(movie);
+                }
+            }
+        }
+
+        System.out.println("Search results:");
+        for (Movie movie : favouriteMovies) {
+            if (movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getId().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getCast().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getCategory().toLowerCase().contains(searchTerm.toLowerCase())) {
+                System.out.println("ID: " + movie.getId());
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Cast: " + movie.getCast());
+                System.out.println("Category: " + movie.getCategory());
+                System.out.println("Release Date: " + movie.getReleaseDate());
+                System.out.println("Budget: " + movie.getBudget());
+                System.out.println("-------------------------------");
+            }
+        }
+    }
+
     public static void addFavourite() {
         System.out.println("Enter the movie ID:");
         String movieId = sc.nextLine();
+//        check if the movie is already in the favourite list
+        for (FavouriteMovies favouriteMovies : favouriteMoviesList) {
+            if (favouriteMovies.getMovieId().equals(movieId)) {
+                System.out.println("Movie already in favourites!");
+                return;
+            }
+        }
         FavouriteMovies favouriteMovies = new FavouriteMovies(user.getEmail(), movieId);
         favouriteMoviesList.add(favouriteMovies);
         System.out.println("Movie added to favourites!");
