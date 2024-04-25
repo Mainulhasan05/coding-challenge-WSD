@@ -1,12 +1,14 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     static Scanner sc;
-    List<Movie> movieList;
+    static List<Movie> movieList;
     public static void main(String[] args) {
         sc = new Scanner(System.in);
-        boolean leave = false;
+
+
         doLogin();
         welcomeToDashboard();
     }
@@ -29,6 +31,7 @@ public class Main {
             User user = new User(email);
             System.out.println("You are registered and logged in!");
         }
+        initializeMovies();
     }
     public static void searchMovies() {
 
@@ -59,6 +62,15 @@ public class Main {
                 leave = true;
             }
         }
+    }
+
+    public static void initializeMovies() {
+        movieList = new ArrayList<>();
+        movieList.add(new Movie("1", "The Shawshank Redemption", "Tim Robbins, Morgan Freeman", "Drama", "14/10/1994", "$25 million"));
+        movieList.add(new Movie("2", "The Godfather", "Marlon Brando, Al Pacino", "Crime", "24/03/1972", "$6 million"));
+        movieList.add(new Movie("3", "The Dark Knight", "Christian Bale, Heath Ledger", "Action", "18/07/2008", "$185 million"));
+        movieList.add(new Movie("4", "The Lord of the Rings: The Return of the King", "Elijah Wood, Viggo Mortensen", "Fantasy", "17/12/2003", "$94 million"));
+        movieList.add(new Movie("5", "Pulp Fiction", "John Travolta, Uma Thurman", "Crime", "14/10/1994", "$8 million"));
     }
 
 }
